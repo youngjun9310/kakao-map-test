@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>App</title>
+  </head>
+  <body>
+    <div id="map" style="width:500px;height:400px;"></div>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=75b512eb692749c484cb571161b92115"
+    ></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var container = document.getElementById('map');
+        var options = {
+          center: new kakao.maps.LatLng(33.450701, 126.570667),
+          level: 3,
+        };
+     
+        var map = new kakao.maps.Map(container, options);
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            moveMapTo(latitude, longitude);
+          }, function(error) {
+            console.error('내 위치를 가져오는 도중 에러가 발생했습니다:', error);
+            alert('내 위치를 가져오는 도중 에러가 발생했습니다.');
+          });
+        } else {
+          console.error('브라우저가 Geolocation API를 지원하지 않습니다.');
+          alert('브라우저가 Geolocation API를 지원하지 않습니다.');
+        }
+
+        function moveMapTo(latitude, longitude) {
+          var newPosition = new kakao.maps.LatLng(latitude, longitude);
+          map.setCenter(newPosition);
+        }
+      });
+    </script>
+  </body>
+</html>
